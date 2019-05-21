@@ -8,6 +8,12 @@ const SearchStories = ({ onFetchStories, onLoadQuery, query }) => {
   useEffect(() => {
     onLoadQuery();
   });
+
+  useEffect(() => {
+    if (query !== '') {
+      onFetchStories(query);
+    }
+  }, [query]);
   
   const inputEl = useRef(null);
   const onSubmit = e => {
