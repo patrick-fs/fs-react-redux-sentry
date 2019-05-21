@@ -24,10 +24,11 @@ import {
 
   // NOTE: injecting fetchStories for testability
   const doFetchStoriesAsync = (query, doFetchStories = fetchStories) => async dispatch => {
-   dispatch(doAction(BEGIN_LOAD));
-   const response = await doFetchStories(query);
-   dispatch(doAction(END_LOAD));
-   dispatch(doAddStories(response.hits));
+    //TODO: throw error if query == 'break it'
+    dispatch(doAction(BEGIN_LOAD));
+    const response = await doFetchStories(query);
+    dispatch(doAddStories(response.hits));
+    dispatch(doAction(END_LOAD));
  };
   
   export {

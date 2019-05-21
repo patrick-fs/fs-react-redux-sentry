@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getReadableStories } from '../selectors/story';
-import { Button } from './Button';
 import Loader from './Loader';
-import { doFetchStoriesAsync } from '../actions/story';
 
 import './Stories.css';
 
@@ -31,7 +29,7 @@ const COLUMNS = {
   },
 };
 
-const Stories = ({ stories, doGet }) => 
+const Stories = ({ stories }) => 
   <>
     <Loader />
     <div className="stories">
@@ -44,7 +42,6 @@ const Stories = ({ stories, doGet }) =>
         />
       )}
     </div>
-    <Button onClick={() => doGet()}>GET</Button>
   </>
 
 const StoriesHeader = ({columns}) => 
@@ -63,11 +60,6 @@ const mapStateToProps = state => ({
   stories: getReadableStories(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  doGet: query => dispatch(doFetchStoriesAsync(query)),
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Stories);
