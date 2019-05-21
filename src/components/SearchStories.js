@@ -1,9 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button } from './Button';
 import { doFetchStoriesAsync } from '../actions/story';
+import { doLoadQuery } from '../actions/localStorage';
 
-const SearchStories = ({ onFetchStories }) => {
+const SearchStories = ({ onFetchStories, onFetchQuery, query }) => {
+  useEffect(() => {
+    onFetchQuery();
+  });
+  
   const inputEl = useRef(null);
   const onSubmit = e => {
     onFetchStories(inputEl.current.value);
@@ -15,7 +20,7 @@ const SearchStories = ({ onFetchStories }) => {
       <input
           type="text"
           ref={inputEl}
-          defaultValue=""
+          defaultValue={query}
         />
       <Button type="submit">
         Search
@@ -24,11 +29,16 @@ const SearchStories = ({ onFetchStories }) => {
   );
 }
 
+const mapStateToProps = ({ localStorageState }) => ({
+  query: localStorageState,
+});
+
 const mapDispatchToProps = dispatch => ({
   onFetchStories: query => dispatch(doFetchStoriesAsync(query)),
+  onFetchQuery: () => dispatch(doLoadQuery()),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SearchStories);
