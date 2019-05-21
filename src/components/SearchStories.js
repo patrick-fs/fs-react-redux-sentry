@@ -4,9 +4,9 @@ import { Button } from './Button';
 import { doFetchStoriesAsync } from '../actions/story';
 import { doLoadQuery } from '../actions/localStorage';
 
-const SearchStories = ({ onFetchStories, onFetchQuery, query }) => {
+const SearchStories = ({ onFetchStories, onLoadQuery, query }) => {
   useEffect(() => {
-    onFetchQuery();
+    onLoadQuery();
   });
   
   const inputEl = useRef(null);
@@ -35,7 +35,7 @@ const mapStateToProps = ({ localStorageState }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchStories: query => dispatch(doFetchStoriesAsync(query)),
-  onFetchQuery: () => dispatch(doLoadQuery()),
+  onLoadQuery: () => dispatch(doLoadQuery()),
 });
 
 export default connect(
