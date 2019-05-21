@@ -45,5 +45,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(Story);
-
-//export default Story;

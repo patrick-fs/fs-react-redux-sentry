@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getReadableStories } from '../selectors/story';
+import { Button } from './Button';
+import Loader from './Loader';
+import { doFetchStoriesAsync } from '../actions/story';
 
 import './Stories.css';
 
@@ -28,17 +31,21 @@ const COLUMNS = {
   },
 };
 
-const Stories = ({ stories }) => 
-  <div className="stories">
-    <StoriesHeader columns={COLUMNS} />
-    {(stories || []).map(story =>
-      <Story
-        key={story.objectID}
-        story={story}
-        columns={COLUMNS}
-      />
-    )}
-  </div>
+const Stories = ({ stories, doGet }) => 
+  <>
+    <Loader />
+    <div className="stories">
+      <StoriesHeader columns={COLUMNS} />
+      {(stories || []).map(story =>
+        <Story
+          key={story.objectID}
+          story={story}
+          columns={COLUMNS}
+        />
+      )}
+    </div>
+    <Button onClick={() => doGet()}>GET</Button>
+  </>
 
 const StoriesHeader = ({columns}) => 
   <div className="stories-header">
@@ -56,6 +63,11 @@ const mapStateToProps = state => ({
   stories: getReadableStories(state),
 });
 
+const mapDispatchToProps = dispatch => ({
+  doGet: query => dispatch(doFetchStoriesAsync(query)),
+});
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Stories);
