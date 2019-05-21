@@ -11,7 +11,6 @@ function localStorageReducer(state = '', action) {
       }
       return action.query;
     case LOAD_QUERY:
-      console.log('in load query');
       try {
         return localStorage.getItem(QUERY_KEY);
       } catch(e) {
