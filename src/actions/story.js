@@ -19,7 +19,6 @@ const doFetchStories = query => ({
 // NOTE: injecting fetchStories for testability
 const doFetchStoriesAsync = (query, doFetchStories = fetchStories) => async dispatch => {
   //TODO: throw error if query == 'break it'
-  dispatch(doSaveQuery(query));
   dispatch(doBeginLoad());
   const response = await doFetchStories(query);
   dispatch(doAddStories(response.hits));
