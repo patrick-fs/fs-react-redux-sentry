@@ -10,7 +10,7 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
   });
 
   useEffect(() => {
-    if (query !== '') {
+    if (query && query !== '') {
       onFetchStories(query);
     }
   }, [query]);
