@@ -1,20 +1,11 @@
-import { STORIES_ADD, STORIES_FETCH } from '../constants/actionTypes';
+import { STORIES_ADD } from '../constants/actionTypes';
 import { doBeginLoad, doEndLoad } from './loader';
-import { doSaveQuery, doLoadQuery } from './localStorage';
-
 import fetchStories from '../api/storys';
 
 const doAddStories = stories => ({
   type: STORIES_ADD,
   stories,
 });
-
-/*
-const doFetchStories = query => ({
-  type: STORIES_FETCH,
-  query,
-});
-*/
 
 // NOTE: injecting fetchStories for testability
 const doFetchStoriesAsync = (query, doFetchStories = fetchStories) => async dispatch => {

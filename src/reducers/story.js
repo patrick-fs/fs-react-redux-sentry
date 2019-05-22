@@ -1,4 +1,4 @@
-import { STORIES_FETCH, STORIES_ADD } from '../constants/actionTypes';
+import { STORIES_ADD } from '../constants/actionTypes';
 
 function storyReducer(state = [], action) {
     switch(action.type) {
