@@ -18,7 +18,7 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
   const inputEl = useRef(null);
   const onSubmit = e => {
     const q = inputEl.current.value;
-    onSaveQuery(q); //this trigger the fetch in useEffect
+    onSaveQuery(q); //this triggers the fetch in useEffect
     e.preventDefault();
   };
 
