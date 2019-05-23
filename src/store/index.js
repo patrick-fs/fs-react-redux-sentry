@@ -1,15 +1,12 @@
 import { createStore, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import recordError from './recordError';
+import recordAction from './recordAction';
 import rootReducer from '../reducers';
-
-const logger = createLogger();
 
 const store = createStore(
   rootReducer,
   undefined,
-  applyMiddleware(recordError, thunk, logger)
+  applyMiddleware(recordAction, thunk)
 );
 
 export default store;
