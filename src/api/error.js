@@ -6,8 +6,11 @@ const hasFullStory = () => {
   return window.FS && FS.getCurrentSessionURL;
 }
 
-const recordError = error => {
+const recordError = (error, extraInfo = null) => {
   Sentry.withScope(scope => {
+    if (extraInfo) {
+      scope.setExtras(extraInfo);
+    }
     if (hasFullStory()) {
       scope.setExtra('fullstory', FS.getCurrentSessionURL(true));
     }      

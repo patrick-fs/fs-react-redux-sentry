@@ -1,6 +1,7 @@
 /* global FS */
 import React, { Component } from 'react';
-import * as Sentry from '@sentry/browser';
+import Error from './Error'
+import recordError from '../api/error';
 
 // Sentry.init({
 //  dsn: "https://<key>@sentry.io/<project>"
@@ -16,25 +17,14 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ error });
-    Sentry.withScope(scope => {
-      scope.setExtras(errorInfo);
-      
-      // capture FullStory session URL at the moment in time the error was thrown
-      // TODO: host an official FullStory package in npm so FS can be imported as a module
-      if (window.FS && FS.getCurrentSessionURL) {
-        scope.setExtra('fullstory', FS.getCurrentSessionURL(true));
-      }
-      
-      const eventId = Sentry.captureException(error);
-      this.setState({eventId})        
-    });
+    recordError(error, errorInfo);
   }
 
   render() {
     if (this.state.error) {
       //render fallback UI
       return (
-        <a href="#" onClick={() => Sentry.showReportDialog({ eventId: this.state.eventId })}>Report feedback</a>
+        <Error error={this.state.error} />
       );
     } else {
       //when there's not an error, render children untouched

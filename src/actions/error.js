@@ -1,8 +1,5 @@
-/* global FS */
 import { ERROR, CLEAR_ERROR } from '../constants/actionTypes';
 import recordError from '../api/error';
-
-
 
 const doError = (error) => {
   recordError(error);
