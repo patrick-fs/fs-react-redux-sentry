@@ -12,7 +12,6 @@ const Error = ({onClear, error}) => {
   });
 
   const onClick = () => {
-    console.log('show dialog')
     Sentry.showReportDialog({ eventId: error.sentryEventId });
   };
 
