@@ -4,8 +4,8 @@ const FS = () => window[window['_fs_namespace']];
 
 const hasFullStoryWithFunction = (...testNames) => {
   const snippetLoaded = !!FS();
-  const functionsCreated = testNames.reduce((acc, current) => { return acc && window.FS[current] }, true);
-  return snippetLoaded && functionsCreated;
+  const functionsCreated = () => testNames.reduce((acc, current) => { return acc && FS()[current] }, true);
+  return snippetLoaded && functionsCreated();
 };
 
 const wrapFunction = name => (...params) => {
