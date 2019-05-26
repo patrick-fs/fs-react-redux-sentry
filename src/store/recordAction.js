@@ -1,9 +1,8 @@
-/* global FS */
 import { ERROR } from '../constants/actionTypes';
-const FS = window.FS;
+import * as FullStory from '../api/fullstory';
 
 const recordAction = () => next => action => {
-  FS.log(`${action.type === ERROR ? 'error': 'log'}`, `Redux action: ${action.type}`);
+  FullStory.log(`${action.type === ERROR ? 'error': 'log'}`, `Redux action: ${action.type}`);
   return next(action);
 };
 
