@@ -1,4 +1,4 @@
-// TODO: host an official FullStory package in npm so FS that defines these functions so they can be imported as a module
+// TODO: host an official FullStory package in npm that defines these functions so they can be imported as a module
 
 const FS = () => window[window['_fs_namespace']];
 
