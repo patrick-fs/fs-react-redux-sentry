@@ -1,26 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import * as Sentry from '@sentry/browser';
 import { doClearError } from '../actions/error';
 
-const Error = ({onClear, error}) => {
+const Error = ({onClear, error, timeout = 3000}) => {
 
   useEffect(() => {
     setTimeout(() => {
       onClear();
-    }, 3000);
+    }, timeout);
   });
 
-  const onClick = () => {
-    Sentry.showReportDialog({ eventId: error.sentryEventId });
-  };
+  const toastClass = `toast ${error ? 'show' : ''}`;
 
   return (
-    <>
-    {error && 
-      <div><a href="#" onClick={onClick}>Report feedback</a></div>
-    }
-    </>
+    <div className={toastClass}>An error occurred - we've been notified.</div>
   );
 };
 
