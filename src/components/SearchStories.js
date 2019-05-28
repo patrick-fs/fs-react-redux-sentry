@@ -24,6 +24,7 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
 
   return (
     <form onSubmit={onSubmit}>
+      <span>Search Hacker News</span>
       <input
           type="text"
           ref={inputEl}

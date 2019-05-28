@@ -1,6 +1,6 @@
 body {
   color: #222;
-  background: #f4f4f4;
+  background: #F9F9F9;
   font: 400 14px CoreSans, Arial,sans-serif;
 }
 
@@ -18,6 +18,10 @@ ul, li {
   margin: 0;
 }
 
+span {
+  margin-right: 10px;
+}
+
 input {
   padding: 10px;
   border-radius: 5px;
@@ -30,7 +34,7 @@ button {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #dddddd;
-  background: transparent;
+  background: #E4E8EB;
   color: #808080;
   cursor: pointer;
 }
@@ -57,4 +61,14 @@ button:hover {
 
 *:focus {
   outline: none;
+}
+
+.loader {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(249,249,249,.3);
+  padding-top: 25vh;
 }

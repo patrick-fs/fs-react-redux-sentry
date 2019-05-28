@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 const Loader = ({loading}) =>
   <>
     {loading && 
-      <div style={{position: 'relative'}}>Loading...</div>
+      <div className="loader">Loading...</div>
     }
   </>
 
