@@ -12,7 +12,7 @@ const wrapFunction = name => (...params) => {
   if (hasFullStoryWithFunction(name)) {
     return FS()[name](...params);
   }
-  console.log(`FS.${name} not ready`);
+  console.warn(`FS.${name} not ready`);
 };
 
 const wrappedFS = ['event', 'log', 'getCurrentSessionURL', 'identify', 'setUserVars', 'consent', 'shutdown', 'restart'].reduce((acc, current) => {
