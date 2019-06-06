@@ -2,10 +2,17 @@
 
 const FS = () => window[window['_fs_namespace']];
 
-const hasFullStoryWithFunction = (...testNames) => {
+const ensureFSLoaded = () => {
   const snippetLoaded = !!FS();
+  if (!snippetLoaded) {
+    throw Error('FullStory is not loaded, please ensure the FullStory snippet is executed before calling FullStory API functions')
+  }
+  return true;
+}
+
+const hasFullStoryWithFunction = (...testNames) => {
   const functionsCreated = () => testNames.reduce((acc, current) => { return acc && FS()[current] }, true);
-  return snippetLoaded && functionsCreated();
+  return ensureFSLoaded() && functionsCreated();
 };
 
 const wrapFunction = name => (...params) => {
