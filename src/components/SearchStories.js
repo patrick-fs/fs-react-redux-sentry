@@ -22,6 +22,12 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
     e.preventDefault();
   };
 
+  // NOTE: I like Florida, just being cheeky
+  const verboten = 'Florida'
+  if (query && query.toLowerCase().indexOf(verboten.toLowerCase()) > -1) {
+    throw Error(`You may not read news about ${verboten}`);
+  }
+
   return (
     <form onSubmit={onSubmit}>
       <span>Search Hacker News</span>
