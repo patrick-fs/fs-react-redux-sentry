@@ -2,15 +2,15 @@ import { combineReducers } from 'redux';
 import storyReducer from './story';
 import archiveReducer from './archive';
 import loaderReducer from './loader';
-import localstorageReducer from './localStorage';
+import queryStringReducer from './queryString';
 import errorReducer from './error';
 
 const rootReducer = combineReducers({
   storyState: storyReducer,
   archiveState: archiveReducer,
   loaderState: loaderReducer,
-  localStorageState: localstorageReducer,
   errorState: errorReducer,
+  queryStringState: queryStringReducer
 });
 
 export default rootReducer;

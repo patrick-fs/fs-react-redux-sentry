@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button } from './Button';
 import { doFetchStoriesAsync } from '../actions/story';
-import { doLoadQuery, doSaveQuery } from '../actions/localStorage';
+import { doLoadQuery, doSaveQuery } from '../actions/query';
 
 const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
   useEffect(() => {
@@ -37,8 +37,8 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
   );
 }
 
-const mapStateToProps = ({ localStorageState }) => ({
-  query: localStorageState,
+const mapStateToProps = ({ queryStringState }) => ({
+  query: queryStringState,
 });
 
 const mapDispatchToProps = dispatch => ({
