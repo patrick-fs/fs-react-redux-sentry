@@ -18,6 +18,7 @@ class ErrorBoundary extends Component {
       return (
         <>
           <h1>Something bad happened and we've been notified</h1>
+          <p>In the mean time, search for <a href="/?query=happiness">happiness</a></p>
         </>
       );
     } else {
