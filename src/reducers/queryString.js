@@ -12,7 +12,8 @@ function queryStringReducer(state = '', action) {
       const qString = history.location.search;
       const qParams = qString.split('&');
       const maybeQuery = qParams.filter(p => p.toLowerCase().indexOf('query=') > -1);
-      return maybeQuery.length > 0 ? maybeQuery[0].split('=')[1] : '';
+      const query = maybeQuery.length > 0 ? maybeQuery[0].split('=')[1] : '';
+      return decodeURIComponent(query);
     default: return state;
   }
 }
