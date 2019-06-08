@@ -10,7 +10,7 @@ const recordError = (error, extraInfo = null) => {
     error.sentryEventId = Sentry.captureException(error);
   });
 
-  FullStory.event('Redux error', {
+  FullStory.event('Application error', {
     name: error.name,
     message: error.message,
     fileName: error.fileName,

@@ -37,8 +37,8 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
   );
 }
 
-const mapStateToProps = ({ queryStringState }) => ({
-  query: queryStringState,
+const mapStateToProps = ({ queryState }) => ({
+  query: queryState,
 });
 
 const mapDispatchToProps = dispatch => ({
