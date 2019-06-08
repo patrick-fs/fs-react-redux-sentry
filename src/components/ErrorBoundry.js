@@ -1,13 +1,5 @@
-/* global FS */
 import React, { Component } from 'react';
-import Error from './Error'
 import recordError from '../api/error';
-
-// Sentry.init({
-//  dsn: "https://<key>@sentry.io/<project>"
-// });
-// should have been called before using it here
-// ideally before even rendering your react app
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -24,7 +16,9 @@ class ErrorBoundary extends Component {
     if (this.state.error) {
       //render fallback UI
       return (
-        <Error error={this.state.error} />
+        <>
+          <h1>Something bad happened and we've been notified</h1>
+        </>
       );
     } else {
       //when there's not an error, render children untouched

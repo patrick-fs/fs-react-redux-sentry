@@ -14,6 +14,13 @@ const Story = ({ story, columns, onArchive }) => {
     objectID,
   } = story;
 
+  /*
+  const verboten = 'Microsoft'
+  if (title && title.indexOf(verboten) > -1) {
+    throw Error(`You may not read news about ${verboten}`);
+  }
+  */
+
   return (
     <div className="story">
       <span style={{ width: columns.title.width }}>
