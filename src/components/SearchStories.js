@@ -1,24 +1,33 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from './Button';
 import { doFetchStoriesAsync } from '../actions/story';
 import { doLoadQuery, doSaveQuery } from '../actions/query';
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
 
 const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
-  useEffect(() => {
-    onLoadQuery();
-  });
+  const [q, setQ] = useState(query);
 
   useEffect(() => {
+    // when page is loaded, get query from data store, set query prop
+    onLoadQuery();
+    // update the UI when query prop changes
     if (query && query !== '') {
+      setQ(query);
       onFetchStories(query);
     }
+    // handle browser backwards and forwards navigation
+    const unListen = history.listen(() => {
+      onLoadQuery();
+    });
+    return () => { unListen(); };
   }, [query]);
-  
-  const inputEl = useRef(null);
+
   const onSubmit = e => {
-    const q = inputEl.current.value;
-    onSaveQuery(q); //this triggers the fetch in useEffect
+    // change the query prop and trigger the UI updatet in useEffect
+    onSaveQuery(q);
     e.preventDefault();
   };
 
@@ -33,8 +42,8 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
       <span>Search Hacker News</span>
       <input
           type="text"
-          ref={inputEl}
-          defaultValue={query}
+          onChange={e => setQ(e.target.value)}
+          value={q}
         />
       <Button type="submit">
         Search

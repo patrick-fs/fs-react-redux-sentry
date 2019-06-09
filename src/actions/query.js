@@ -13,7 +13,7 @@ const doSaveQuery = query => {
 };
 
 const doLoadQuery = () => {
-  const query = parseQuery(history.location.search);
+  const query = parseQuery(window.location.search);
   return { 
     type: LOAD_QUERY,
     query,
