@@ -13,15 +13,19 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
   useEffect(() => {
     // when page is loaded, get query from data store, set query prop
     onLoadQuery();
+
     // update the UI when query prop changes
     if (query && query !== '') {
       setQ(query);
       onFetchStories(query);
     }
+
     // handle browser backwards and forwards navigation
     const unListen = history.listen(() => {
       onLoadQuery();
     });
+
+    // detach history state listener when component unmounts
     return () => { unListen(); };
   }, [query]);
 
