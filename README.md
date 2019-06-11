@@ -39,7 +39,7 @@ ReactDOM.render(
 Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your key and project values).
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events using [Sentry scopes](https://docs.sentry.io/enriching-error-data/scopes/). The `recordError` function exported from [src/api/error.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) puts it all together.
+FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events using [Sentry scopes](https://docs.sentry.io/enriching-error-data/scopes/). The [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) puts it all together.
 
 ```JavaScript
 import * as Sentry from '@sentry/browser';
@@ -134,6 +134,7 @@ class ErrorBoundary extends Component {
 
 export default ErrorBoundary;
 ```
+This ErrorBoundry component invokes [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) in `componentDidCatch`, which sends the error data to Sentry with a session reply URL.
 
 #### No offense fellow Floridians
 If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state). This is what the error looks like in Sentry:
