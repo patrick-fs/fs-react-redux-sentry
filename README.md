@@ -149,10 +149,72 @@ Clicking on this link allows you to see the user’s actions leading up to and f
 ![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59304453-4d1fe700-8c66-11e9-91ba-20917053184b.gif)
 
 ### Handling errors in Redux action creators
-Search for “break it.”
-TODO: show sample code from https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js
+Action creator functions are another likely source of errors, especially if you're performing side-effects and dispatching other actions. Almost all ot the heavy-listing for Search Headline News occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)
+
+```JavaScript
+import { STORIES_ADD } from '../constants/actionTypes';
+import { doBeginLoad, doEndLoad } from './loader';
+import { doError } from './error';
+import fetchStories from '../api/storys';
+
+const doAddStories = stories => ({
+  type: STORIES_ADD,
+  stories,
+});
+
+const doFetchStoriesAsync = query => async dispatch => {
+  dispatch(doBeginLoad());
+  try {
+    if (query === 'break it') throw new Error('Broken on demand!');
+    const response = await fetchStories(query);
+    dispatch(doAddStories(response.hits));
+    dispatch(doEndLoad());
+  } catch (err) {
+    dispatch(doEndLoad());
+    dispatch(doError(err));
+  }
+  
+};
+
+export {
+  doAddStories,
+  doFetchStoriesAsync,
+};
+```
+Type "break it" into the search field to trigger yet another contrived error :)
 
 ### Catching unhandled errors in action creators and reducers
-Click “Archive” button. 
-TODO: showcase middleware
+What if an action creator or reducer _forgets_ to handle errors appropriately? [Redux Middleware](https://redux.js.org/advanced/middleware) can help. The Search Headline News app includes a `crashReporter` middleware that will catch unhandled exceptions thrown from thunk action creators (action creators that return a function like `[src/actions/story.js]`(https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)) and any reducer.
 
+```JavaScript
+import { doError } from '../actions/error';
+
+const crashReporter = store => next => action => {
+  // we got a thunk
+  if (typeof action === 'function') {
+    // wrap it in a function to try/catch the downstream invocation
+    const wrapAction = fn => async (dispatch, getState, extraArgument) => {
+      try {
+        await fn(dispatch, getState, extraArgument);
+      } catch (e) {
+        dispatch(doError(e));
+      }
+    }
+    // send wrapped function to the next middleware
+    // this should be upstrem from redux-thunk middleware
+    return next(wrapAction(action));
+  }
+  
+  try {
+    return next(action);
+  } catch (e) {
+      store.dispatch(doError(e));
+  }
+};
+
+export default crashReporter;
+```
+
+When you click the "Archive" button, a thunk action creator is dispatched and an unhandled exception is thrown, to be caught and handled by the `crashReporter` middleware.
+
+This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Unaught exceptions thrown from plain action creators will not be caught by this middleware.
