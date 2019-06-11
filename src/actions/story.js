@@ -8,13 +8,11 @@ const doAddStories = stories => ({
   stories,
 });
 
-// NOTE: injecting fetchStories for testability
-const doFetchStoriesAsync = (query, doFetchStories = fetchStories) => async dispatch => {
+const doFetchStoriesAsync = query => async dispatch => {
   dispatch(doBeginLoad());
-  let response;
   try {
     if (query === 'break it') throw new Error('Broken on demand!');
-    response = await doFetchStories(query);
+    const response = await fetchStories(query);
     dispatch(doAddStories(response.hits));
     dispatch(doEndLoad());
   } catch (err) {
