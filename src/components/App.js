@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 import SearchStories from './SearchStories';
 import Stories from './Stories';
-import Error from './Error';
+import ErrorToast from './ErrorToast';
 import ErrorBoundary from './ErrorBoundry';
 
 const App = () => (
   <div className="app">
-    <Error></Error>
     <ErrorBoundary>
+      <ErrorToast></ErrorToast>
       <div className="interactions">
         <SearchStories />
       </div>

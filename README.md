@@ -23,6 +23,7 @@ window['_fs_org'] = 'your org id here';
 Sentry should be initialized as soon as possible during your application load up. In Search Hacker News, `Sentry.init` is called before the `App` component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
 
 ```JSX
+...
 import * as Sentry from '@sentry/browser';
 
 Sentry.init({ dsn: 'https://<your key>@sentry.io/<your project>' });

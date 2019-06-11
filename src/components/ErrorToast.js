@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { doClearError } from '../actions/error';
 
-const Error = ({onClear, error, timeout = 3000}) => {
+const ErrorToast = ({onClear, error, timeout = 3000}) => {
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,4 +28,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Error);
+)(ErrorToast);
