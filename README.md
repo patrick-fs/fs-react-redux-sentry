@@ -136,7 +136,7 @@ export default ErrorBoundary;
 ```
 
 #### No offense fellow Floridians
-If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state).
+If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state). This is what the error looks like in Sentry:
 
 ![image](https://user-images.githubusercontent.com/45576380/59303785-f06ffc80-8c64-11e9-9927-49b90f9b7381.png)
 
@@ -144,7 +144,7 @@ A FullStory session replay URL is included in the Sentry issue that deep links t
 
 ![image](https://user-images.githubusercontent.com/45576380/59303911-36c55b80-8c65-11e9-8541-9dd199610151.png)
 
-Clicking on this link allows you to see the user’s actions leading up to and following the error.
+Clicking on this link allows you to see the user’s actions leading up to and following the error in a FullStory session replay.
 
 ![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59304453-4d1fe700-8c66-11e9-91ba-20917053184b.gif)
 
