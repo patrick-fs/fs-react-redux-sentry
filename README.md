@@ -149,7 +149,7 @@ Clicking on this link allows you to see the user’s actions leading up to and f
 ![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59304453-4d1fe700-8c66-11e9-91ba-20917053184b.gif)
 
 ### Handling errors in Redux action creators
-Action creator functions are another likely source of errors, especially if you're performing side-effects and dispatching other actions. Almost all ot the heavy-listing for Search Headline News occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)
+Action creator functions are another likely source of errors, especially if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)
 
 ```JavaScript
 import { STORIES_ADD } from '../constants/actionTypes';
@@ -184,7 +184,7 @@ export {
 Type "break it" into the search field to trigger yet another contrived error :)
 
 ### Catching unhandled errors in action creators and reducers
-What if an action creator or reducer _forgets_ to handle errors appropriately? [Redux Middleware](https://redux.js.org/advanced/middleware) can help. The Search Headline News app includes a `crashReporter` middleware that will catch unhandled exceptions thrown from thunk action creators (action creators that return a function like `[src/actions/story.js]`(https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)) and any reducer.
+What if an action creator or reducer _forgets_ to handle errors appropriately? [Redux Middleware](https://redux.js.org/advanced/middleware) can help. The Search Headline News app includes a `crashReporter` middleware that will catch unhandled exceptions thrown from thunk action creators (action creators that return a function like [`src/actions/story.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)) and any reducer.
 
 ```JavaScript
 import { doError } from '../actions/error';
