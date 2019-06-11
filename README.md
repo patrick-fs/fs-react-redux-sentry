@@ -40,7 +40,7 @@ Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/java
 ## How FullStory links with Sentry
 FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events using [Sentry scopes](https://docs.sentry.io/enriching-error-data/scopes/). When you put it all together it [looks like this](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js):
 
-```JSX
+```JavaScript
 import * as Sentry from '@sentry/browser';
 import * as FullStory from './fullstory';
 
