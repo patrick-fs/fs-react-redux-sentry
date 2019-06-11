@@ -202,7 +202,7 @@ const crashReporter = store => next => action => {
       }
     }
     // send wrapped function to the next middleware
-    // this should be upstrem from redux-thunk middleware
+    // this should be upstream from redux-thunk middleware
     return next(wrapAction(action));
   }
   
