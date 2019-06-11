@@ -50,6 +50,8 @@ const recordError = (error, extraInfo = null) => {
     if (extraInfo) {
       scope.setExtras(extraInfo);
     }
+
+    // send a deep link to a FullStory session at the moment the error was recorded
     scope.setExtra('fullstory', FullStory.getCurrentSessionURL(true));
     error.sentryEventId = Sentry.captureException(error);
   });
