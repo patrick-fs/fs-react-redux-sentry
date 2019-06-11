@@ -184,7 +184,7 @@ export {
 Type "break it" into the search field to trigger yet another contrived error :)
 
 ### Catching unhandled errors in action creators and reducers
-What if an action creator or reducer _forgets_ to handle errors appropriately? [Redux Middleware](https://redux.js.org/advanced/middleware) can help. The Search Headline News app includes a `crashReporter` middleware that will catch unhandled exceptions thrown from thunk action creators (action creators that return a function like [`src/actions/story.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)) and any reducer.
+What if an action creator or reducer _forgets_ to handle errors appropriately? [Redux Middleware](https://redux.js.org/advanced/middleware) can help. The Search Headline News app includes a [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware that will catch unhandled exceptions thrown from thunk action creators (action creators that return a function like [`src/actions/story.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)) and any reducer.
 
 ```JavaScript
 import { doError } from '../actions/error';
@@ -215,6 +215,6 @@ const crashReporter = store => next => action => {
 export default crashReporter;
 ```
 
-When you click the "Archive" button, a thunk action creator is dispatched and an unhandled exception is thrown, to be caught and handled by the `crashReporter` middleware.
+When you click the "Archive" button, a thunk action creator is dispatched and an unhandled exception is thrown, to be caught and handled by the [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware.
 
 This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Unaught exceptions thrown from plain action creators will not be caught by this middleware.
