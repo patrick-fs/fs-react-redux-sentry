@@ -39,7 +39,7 @@ ReactDOM.render(
 Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your key and project values).
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events using [Sentry scopes](https://docs.sentry.io/enriching-error-data/scopes/). When you put it all together it [looks like this](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js):
+FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events using [Sentry scopes](https://docs.sentry.io/enriching-error-data/scopes/). The `recordError` function exported from [src/api/error.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) puts it all together.
 
 ```JavaScript
 import * as Sentry from '@sentry/browser';
@@ -97,6 +97,42 @@ const App = () => (
 );
 
 export default App;
+```
+
+This is the [ErrorBoundry component](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/ErrorBoundry.js) definition:
+
+```JSX
+import React, { Component } from 'react';
+import recordError from '../api/error';
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null, eventId: null };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({ error });
+    recordError(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.error) {
+      //render fallback UI
+      return (
+        <div className="error">
+          <h1>Something bad happened and we've been notified</h1>
+          <p>In the mean time, search for <a href="/?query=happiness">happiness</a></p>
+        </div>
+      );
+    } else {
+      //when there's not an error, render children untouched
+      return this.props.children;
+    }
+  }
+}
+
+export default ErrorBoundary;
 ```
 
 If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state).
