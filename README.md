@@ -1,5 +1,6 @@
 # Understanding React + Redux errors with Sentry and FullStory
 [Sentry](https://sentry.io) is an error monitoring platform used by development teams around the world to identify when issues crop up in their applications. [FullStory](https://www.fullstory.com) lets development teams view user experience friction through the eyes of their users.
+
 Sentry + FullStory arms development teams with an unprecedented ability to understand the details around the issues impacting their users.
 
 ## Searching Hacker News
