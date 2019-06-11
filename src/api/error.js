@@ -12,6 +12,7 @@ const recordError = (error, extraInfo = null) => {
     error.sentryEventId = Sentry.captureException(error);
   });
 
+  // send error data into FullStory to find any user who experienced errors
   FullStory.event('Application error', {
     name: error.name,
     message: error.message,
