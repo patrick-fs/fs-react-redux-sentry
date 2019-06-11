@@ -22,7 +22,7 @@ window['_fs_org'] = 'your org id here';
 ### Setting up Sentry
 Sentry should be initialized as soon as possible during your application load up. In Search Hacker News, `Sentry.init` is called before the `App` component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
 
-```JavaScript
+```JSX
 import * as Sentry from '@sentry/browser';
 
 Sentry.init({ dsn: 'https://<your key>@sentry.io/<your project>' });
@@ -40,7 +40,7 @@ Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/java
 ## How FullStory links with Sentry
 FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events using [Sentry scopes](https://docs.sentry.io/enriching-error-data/scopes/). When you put it all together it [looks like this](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js):
 
-```JavaScript
+```JSX
 import * as Sentry from '@sentry/browser';
 import * as FullStory from './fullstory';
 
@@ -75,7 +75,7 @@ React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries
 
 There's a single error boundary in Search Hacker News surrounding the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component declaration:
 
-```JavaScript
+```JSX
 import React from 'react';
 import './App.css';
 import SearchStories from './SearchStories';
