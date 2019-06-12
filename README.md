@@ -102,7 +102,7 @@ const App = () => (
 export default App;
 ```
 
-This is the [ErrorBoundry component](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/ErrorBoundry.js) definition:
+This is our [ErrorBoundry component](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/ErrorBoundry.js) definition:
 
 ```JSX
 import React, { Component } from 'react';
@@ -137,7 +137,7 @@ class ErrorBoundary extends Component {
 
 export default ErrorBoundary;
 ```
-This ErrorBoundry component invokes [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) in `componentDidCatch`, which sends the error data to Sentry with a session reply URL.
+[`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) is invoked in `componentDidCatch`, which sends the error data to Sentry with a session reply URL.
 
 #### No offense fellow Floridians
 If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state). This is what the error looks like in Sentry:
