@@ -140,7 +140,7 @@ export default ErrorBoundary;
 [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) is invoked in `componentDidCatch`, which sends the error data to Sentry with a session reply URL.
 
 #### No offense fellow Floridians
-If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state). This is what the error looks like in Sentry:
+If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state). Sentry captures the stack trace and highlights the line of code that threw the error:
 
 ![image](https://user-images.githubusercontent.com/45576380/59303785-f06ffc80-8c64-11e9-9927-49b90f9b7381.png)
 
