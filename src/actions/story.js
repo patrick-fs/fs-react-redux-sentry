@@ -14,12 +14,10 @@ const doFetchStoriesAsync = query => async dispatch => {
     if (query === 'break it') throw new Error('Broken on demand!');
     const response = await fetchStories(query);
     dispatch(doAddStories(response.hits));
-    dispatch(doEndLoad());
   } catch (err) {
-    dispatch(doEndLoad());
     dispatch(doError(err));
   }
-  
+  dispatch(doEndLoad());  
 };
 
 export {
