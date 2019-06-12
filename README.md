@@ -148,7 +148,7 @@ A FullStory session replay URL is included in the Sentry issue that deep links t
 
 ![image](https://user-images.githubusercontent.com/45576380/59303911-36c55b80-8c65-11e9-8541-9dd199610151.png)
 
-Clicking on this link lets you to see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundry screen. The "Application error" event is visible in the event stream on the right-hand side of the screen.
+Clicking on this link lets you see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundry screen. The "Application error" event is visible in the event stream on the right-hand side of the screen.
 
 ![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59304453-4d1fe700-8c66-11e9-91ba-20917053184b.gif)
 
