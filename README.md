@@ -8,7 +8,7 @@ The Search Hacker News React/Redux app example in this repo is based on [Robin W
 
 1. [React Hooks](https://reactjs.org/docs/hooks-intro.html) are used instead of class components and lifecycle events.
 2. [Redux-thunk](https://github.com/reduxjs/redux-thunk) is used for fetching stories from Hacker News rather than redux-saga.
-3. This app is (deliberately) riddled with bugs 🐞
+3. This app is riddled with bugs 🐞
 
 You can try out the Search Hacker News app [here](http://fs-redux-sentry.s3-website-us-east-1.amazonaws.com/) or you can clone this repo and `npm install` then `npm run start`. The code is built with [Create React App](https://github.com/facebook/create-react-app).
 
