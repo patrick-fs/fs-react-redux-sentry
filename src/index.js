@@ -7,7 +7,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import * as Sentry from '@sentry/browser';
 
-Sentry.init({ dsn: 'https://2e8cbd241d9a426a9393e7604f159869@sentry.io/1464988' });
+Sentry.init({ dsn: 'https://<your key>@sentry.io/<your project>' });
 
 ReactDOM.render(
   <Provider store={store}>
