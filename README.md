@@ -153,7 +153,7 @@ Clicking on this link lets you to see the user’s actions leading up to and fol
 ![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59304453-4d1fe700-8c66-11e9-91ba-20917053184b.gif)
 
 ### Handling errors in Redux action creators
-Action creator functions are another likely source of errors, especially if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)
+Action creator functions are another likely source of errors if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)
 
 ```JavaScript
 import { STORIES_ADD } from '../constants/actionTypes';
