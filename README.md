@@ -77,7 +77,7 @@ We’re also using the FullStory [custom events API](https://help.fullstory.com/
 ### Handling and reviewing errors in React components
 React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components.
 
-There's a single error boundary in Search Hacker News surrounding the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component declaration:
+There's a single error boundary in Search Hacker News nested within the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component declaration:
 
 ```JSX
 import React from 'react';
