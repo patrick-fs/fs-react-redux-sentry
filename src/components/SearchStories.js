@@ -30,8 +30,11 @@ const SearchStories = ({ onFetchStories, onLoadQuery, onSaveQuery, query }) => {
   }, [query]);
 
   const onSubmit = e => {
-    // change the query prop and trigger the UI update in useEffect
-    onSaveQuery(q);
+    // check to make sure the query has changed
+    if (q !== query) {
+      // change the query prop and trigger the UI update in useEffect
+      onSaveQuery(q);
+    }
     e.preventDefault();
   };
 
