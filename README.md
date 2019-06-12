@@ -186,7 +186,7 @@ export {
 Type "break it" into the search field to trigger yet another contrived error :)
 
 ### Catching unhandled errors in action creators and reducers
-What if an action creator or reducer _forgets_ to handle errors appropriately? [Redux Middleware](https://redux.js.org/advanced/middleware) can help. The Search Headline News app includes a [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware that will catch unhandled exceptions thrown from thunk action creators (action creators that return a function like [`src/actions/story.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)) and any reducer.
+What if an action creator or reducer _forgets_ to handle errors appropriately? [Redux Middleware](https://redux.js.org/advanced/middleware) can help. The Search Headline News app includes a [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware that will catch unhandled exceptions thrown from thunk action creators (action creators like [`src/actions/story.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js) that return a function) and any reducer.
 
 ```JavaScript
 import { doError } from '../actions/error';
