@@ -4,9 +4,9 @@ const crashReporter = store => next => action => {
   // we got a thunk
   if (typeof action === 'function') {
     // wrap it in a function to try/catch the downstream invocation
-    const wrapAction = fn => async (dispatch, getState, extraArgument) => {
+    const wrapAction = fn => (dispatch, getState, extraArgument) => {
       try {
-        await fn(dispatch, getState, extraArgument);
+        fn(dispatch, getState, extraArgument);
       } catch (e) {
         dispatch(doError(e));
       }
