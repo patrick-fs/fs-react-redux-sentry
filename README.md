@@ -75,7 +75,7 @@ We’re also using the FullStory [custom events API](https://help.fullstory.com/
 ## All the things that can go wrong...
 
 ### Handling and reviewing errors in React components
-React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components.
+React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components. Error Bondaries will capture errors thrown from any component nested within them. All child compoments of the `App` component are wrapped in an Error Boundary, which means errors in any component will be handled.
 
 There's a single error boundary in Search Hacker News nested within the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component declaration:
 
@@ -88,15 +88,15 @@ import ErrorToast from './ErrorToast';
 import ErrorBoundary from './ErrorBoundry';
 
 const App = () => (
-  <div className="app">
-    <ErrorBoundary>
+  <ErrorBoundary>
+    <div className="app">
       <ErrorToast></ErrorToast>
       <div className="interactions">
         <SearchStories />
       </div>
       <Stories />
-    </ErrorBoundary>
-  </div>
+    </div>
+  </ErrorBoundary>
 );
 
 export default App;
