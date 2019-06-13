@@ -6,15 +6,15 @@ import ErrorToast from './ErrorToast';
 import ErrorBoundary from './ErrorBoundry';
 
 const App = () => (
-  <div className="app">
-    <ErrorBoundary>
+  <ErrorBoundary>
+    <div className="app">
       <ErrorToast></ErrorToast>
       <div className="interactions">
         <SearchStories />
       </div>
       <Stories />
-    </ErrorBoundary>
-  </div>
+    </div>
+  </ErrorBoundary>
 );
 
 export default App;
