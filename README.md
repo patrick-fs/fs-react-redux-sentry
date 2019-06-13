@@ -135,7 +135,7 @@ class ErrorBoundary extends Component {
 
 export default ErrorBoundary;
 ```
-[`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) is invoked in `componentDidCatch`, which sends the error data to Sentry with a session replay URL.
+[`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) is invoked in `componentDidCatch`, which sends error data to Sentry along with a FullStory session replay URL.
 
 #### No offense fellow Floridians
 If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state). Sentry captures the stack trace and highlights the line of code that threw the error:
