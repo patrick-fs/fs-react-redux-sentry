@@ -36,6 +36,25 @@ const consent = wrappedFS.consent;
 const shutdown = wrappedFS.shutdown;
 const restart = wrappedFS.restart;
 
+const isReady = () => {
+  if (ensureFSLoaded() && window._fs_loaded) {
+    return Promise.resolve();
+  }
+
+  const cb = fs()._fs_ready;
+
+  fs()._fs_ready = () => {
+    try {
+      if (typeof cb === 'function') {
+        cb();
+      }
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+}
+
 
 export {
   event,
@@ -46,4 +65,5 @@ export {
   consent,
   shutdown,
   restart,
+  isReady
 };
