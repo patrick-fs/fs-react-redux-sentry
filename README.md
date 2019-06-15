@@ -39,7 +39,7 @@ ReactDOM.render(
 Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your key and project values).
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when the [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory`. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
+FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when the [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
 
 ```JavaScript
 import * as Sentry from '@sentry/browser';
