@@ -190,7 +190,7 @@ What if an action creator or reducer _forgets_ to handle errors appropriately? [
 import { doError } from '../actions/error';
 
 const crashReporter = store => next => action => {
-  // we got a thunk
+  // we got a thunk, prep it to be handled by redux-thunk middleware
   if (typeof action === 'function') {
     // wrap it in a function to try/catch the downstream invocation
     const wrapAction = fn => (dispatch, getState, extraArgument) => {

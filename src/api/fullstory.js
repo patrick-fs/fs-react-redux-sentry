@@ -1,9 +1,9 @@
 // TODO: host an official FullStory package in npm that defines this module
 
-const FS = () => window[window['_fs_namespace']];
+const fs = () => window[window['_fs_namespace']];
 
 const ensureFSLoaded = () => {
-  const snippetLoaded = !!FS();
+  const snippetLoaded = !!fs();
   if (!snippetLoaded) {
     throw Error('FullStory is not loaded, please ensure the FullStory snippet is executed before calling FullStory API functions')
   }
@@ -11,13 +11,13 @@ const ensureFSLoaded = () => {
 }
 
 const hasFullStoryWithFunction = (...testNames) => {
-  const functionsCreated = () => testNames.reduce((acc, current) => { return acc && FS()[current] }, true);
+  const functionsCreated = () => testNames.reduce((acc, current) => { return acc && fs()[current] }, true);
   return ensureFSLoaded() && functionsCreated();
 };
 
 const wrapFunction = name => (...params) => {
   if (hasFullStoryWithFunction(name)) {
-    return FS()[name](...params);
+    return fs()[name](...params);
   }
   console.warn(`FS.${name} not ready`);
 };
