@@ -231,9 +231,5 @@ When you click the "Archive" button, a thunk action creator is dispatched and an
 
 This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by this middleware.
 
-### Handling uncaught errors
-
-
-
 ## Monitor, Alert, Watch, Fix
 Bug-awareness is the critical first step in maintaining quality in your applications. Sentry let's you know that your users may be feeling pain. FullStory shows you exactly _what_ they are doing in those moments before an error strikes and gives you the complete picture you need to remediate issues as fast as possible.
