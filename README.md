@@ -154,7 +154,7 @@ If you search for “Florida” an error is thrown from the [SearchStories](http
 
 ![image](https://user-images.githubusercontent.com/45576380/59303785-f06ffc80-8c64-11e9-9927-49b90f9b7381.png)
 
-A FullStory session replay URL is included in the Sentry issue that deep links to the moment the issue was created.
+A FullStory session replay URL is included in the Sentry issue that deep links to the moment _just before_ the error occurs.
 
 ![image](https://user-images.githubusercontent.com/45576380/59303911-36c55b80-8c65-11e9-8541-9dd199610151.png)
 
