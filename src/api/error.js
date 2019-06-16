@@ -3,8 +3,7 @@ import * as FullStory from './fullstory';
 
 let didInit = false;
 const initSentry = (sentryKey, sentryProject) => {
-  if (didInit) 
-  {
+  if (didInit) {
     console.warn('initSentry has already been called once. Additional invocations are ignored.');
     return;
   }

@@ -47,8 +47,7 @@ import * as FullStory from './fullstory';
 
 let didInit = false;
 const initSentry = (sentryKey, sentryProject) => {
-  if (didInit) 
-  {
+  if (didInit) {
     console.warn('initSentry has already been called once. Additional invocations are ignored.');
     return;
   }
@@ -87,7 +86,7 @@ We’re also using the FullStory [custom events API](https://help.fullstory.com/
 
 ## All the things that can go wrong...
 
-### Handling and reviewing errors in React components
+### Handling errors in React components
 React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components. Error Boundaries will capture errors thrown from any component nested within them. All child compoments of the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component are wrapped in an Error Boundary, which means errors in any component will be handled.
 
 ```JSX
@@ -231,6 +230,10 @@ export default crashReporter;
 When you click the "Archive" button, a thunk action creator is dispatched and an unhandled exception is thrown, to be caught and handled by the [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware.
 
 This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by this middleware.
+
+### Handling uncaught errors
+
+
 
 ## Monitor, Alert, Watch, Fix
 Bug-awareness is the critical first step in maintaining quality in your applications. Sentry let's you know that your users may be feeling pain. FullStory shows you exactly _what_ they are doing in those moments before an error strikes and gives you the complete picture you need to remediate issues as fast as possible.
