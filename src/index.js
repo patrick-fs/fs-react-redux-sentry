@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import * as Sentry from '@sentry/browser';
+import { initSentry } from './api/error';
 
-Sentry.init({ dsn: 'https://<your key>@sentry.io/<your project>' });
+initSentry('<your Sentry key>', '<your Sentry project>');
 
 ReactDOM.render(
   <Provider store={store}>

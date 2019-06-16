@@ -20,13 +20,13 @@ window['_fs_org'] = 'your org id here';
 ```
 
 ### Setting up Sentry
-Sentry should be initialized as soon as possible during your application load up. In Search Hacker News, `Sentry.init` is called before the `App` component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
+Sentry should be initialized as soon as possible during your application load up. In Search Hacker News, `initSentry` is called before the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
 
 ```JSX
 ...
-import * as Sentry from '@sentry/browser';
+import { initSentry } from './api/error';
 
-Sentry.init({ dsn: 'https://<your key>@sentry.io/<your project>' });
+initSentry('<your Sentry key>', '<your Sentry project>');
 
 ReactDOM.render(
   <Provider store={store}>
@@ -39,42 +39,54 @@ ReactDOM.render(
 Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your key and project values).
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events using [Sentry scopes](https://docs.sentry.io/enriching-error-data/scopes/). The [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) function puts it all together.
+FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when the [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
 
 ```JavaScript
 import * as Sentry from '@sentry/browser';
 import * as FullStory from './fullstory';
 
-const recordError = (error, extraInfo = null) => {
-  Sentry.withScope(scope => {
-    if (extraInfo) {
-      scope.setExtras(extraInfo);
+let didInit = false;
+const initSentry = (sentryKey, sentryProject) => {
+  if (didInit) {
+    console.warn('initSentry has already been called once. Additional invocations are ignored.');
+    return;
+  }
+  didInit = true;
+  Sentry.init({
+    dsn: `https://${sentryKey}@sentry.io/${sentryProject}`,
+    beforeSend(event, hint) {
+      const error = hint.originalException;
+      event.extra = event.extra || {};
+      event.extra.fullstory = FullStory.getCurrentSessionURL(true) || 'current session URL API not ready';
+
+      FullStory.event('Application error', {
+        name: error.name,
+        message: error.message,
+        fileName: error.fileName,
+        lineNumber: error.lineNumber,
+        stack: error.stack,
+        sentryEventId: hint.event_id,
+      });
+      
+      return event;
     }
-
-    // send a deep link to a FullStory session at the moment the error was recorded
-    scope.setExtra('fullstory', FullStory.getCurrentSessionURL(true));
-    error.sentryEventId = Sentry.captureException(error);
-  });
-
-  // send error data into FullStory to find any user who experienced errors
-  FullStory.event('Application error', {
-    name: error.name,
-    message: error.message,
-    fileName: error.fileName,
-    lineNumber: error.lineNumber,
-    stack: error.stack,
-    sentryEventId: error.sentryEventId,
   });
 }
 
+const recordError = (error) => {
+  if (!didInit) throw Error('You must call initSentry once before calling recordError');
+  Sentry.captureException(error);
+}
+
 export default recordError;
+export { initSentry };
 ```
 
 We’re also using the FullStory [custom events API](https://help.fullstory.com/develop-js/363565-fs-event-api-sending-custom-event-data-into-fullstory) to send error data into FullStory. This lets us search for all users that experienced errors on the Search Hacker News app.
 
 ## All the things that can go wrong...
 
-### Handling and reviewing errors in React components
+### Handling errors in React components
 React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components. Error Boundaries will capture errors thrown from any component nested within them. All child compoments of the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component are wrapped in an Error Boundary, which means errors in any component will be handled.
 
 ```JSX
@@ -218,6 +230,10 @@ export default crashReporter;
 When you click the "Archive" button, a thunk action creator is dispatched and an unhandled exception is thrown, to be caught and handled by the [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware.
 
 This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by this middleware.
+
+### Handling uncaught errors
+
+
 
 ## Monitor, Alert, Watch, Fix
 Bug-awareness is the critical first step in maintaining quality in your applications. Sentry let's you know that your users may be feeling pain. FullStory shows you exactly _what_ they are doing in those moments before an error strikes and gives you the complete picture you need to remediate issues as fast as possible.

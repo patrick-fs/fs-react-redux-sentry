@@ -20,6 +20,7 @@ const wrapFunction = name => (...params) => {
     return fs()[name](...params);
   }
   console.warn(`FS.${name} not ready`);
+  return null;
 };
 
 const wrappedFS = ['event', 'log', 'getCurrentSessionURL', 'identify', 'setUserVars', 'consent', 'shutdown', 'restart'].reduce((acc, current) => {
