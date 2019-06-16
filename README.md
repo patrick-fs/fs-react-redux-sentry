@@ -233,7 +233,7 @@ This middleware will capture any uncaught reducer errors as well as any action c
 
 ### Handling uncaught errors
 
-There are still avenues for exceptions to be thrown that we can't handle with the techniques above. 
+Ideally, all exceptions are caught and handled appropriatey to provide proper user feedback. Using [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) will help in case a `try/catch` statement was left out in certain situations, but there are types of unhandled exceptions that middleware can't catch. 
 
 These include unhandled exceptions thrown from:
 
