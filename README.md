@@ -229,7 +229,19 @@ export default crashReporter;
 
 When you click the "Archive" button, a thunk action creator is dispatched and an unhandled exception is thrown, to be caught and handled by the [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware.
 
-This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by this middleware.
+This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js).
+
+### Handling uncaught errors
+
+There are still avenues for exceptions to be thrown that we can't handle with the techniques above. 
+
+These include unhandled exceptions thrown from:
+
+* action creators that aren't thunks
+* event handlers in React components (`onClick`, `onSubmit`, etc.)
+* `setTimeout` or `setInterval`
+
+We don't have a good way to report back to users that something went wrong when unhandled exceptions occur in these scenarios, but because Sentry shims the global [`onerror`](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror) event handler, you *will* receive an error alert with a FullStory session replay URL as well as a FullStory custom event whenver an uncaught JavaScript runtime error occurs. All of this is taken care of in the `initSentry` function in the [error API](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module.
 
 ## Monitor, Alert, Watch, Fix
 Bug-awareness is the critical first step in maintaining quality in your applications. Sentry let's you know that your users may be feeling pain. FullStory shows you exactly _what_ they are doing in those moments before an error strikes and gives you the complete picture you need to remediate issues as fast as possible.
