@@ -193,7 +193,7 @@ export {
   doFetchStoriesAsync,
 };
 ```
-...which dispatches to an [`error`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/error.js) action creator that calls [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js).
+...which dispatches the caught exception to an [`error`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/error.js) action creator that calls [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js).
 ```JavaScript
 import { ERROR, CLEAR_ERROR } from '../constants/actionTypes';
 import recordError from '../api/error';
