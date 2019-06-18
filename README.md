@@ -59,7 +59,7 @@ const initSentry = (sentryKey, sentryProject) => {
       event.extra = event.extra || {};
       event.extra.fullstory = FullStory.getCurrentSessionURL(true) || 'current session URL API not ready';
 
-      FullStory.event('Application error', {
+      FullStory.event('Application Error', {
         name: error.name,
         message: error.message,
         fileName: error.fileName,

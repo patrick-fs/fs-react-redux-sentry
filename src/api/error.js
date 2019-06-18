@@ -20,7 +20,7 @@ const initSentry = (sentryKey, sentryProject) => {
       event.extra.fullstory = FullStory.getCurrentSessionURL(true) || 'current session URL API not ready';
 
       // FS.event is immediately ready even if FullStory isn't fully bootstrapped
-      FullStory.event('Application error', {
+      FullStory.event('Application Error', {
         name: error.name,
         message: error.message,
         fileName: error.fileName,
