@@ -163,7 +163,7 @@ Clicking on this link lets you see the user’s actions leading up to and follow
 ![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59304453-4d1fe700-8c66-11e9-91ba-20917053184b.gif)
 
 ### Handling errors in Redux action creators
-Action creator functions are another likely source of errors if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)
+Action creator functions are another likely source of errors if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js).
 
 ```JavaScript
 import { STORIES_ADD } from '../constants/actionTypes';
@@ -193,6 +193,26 @@ export {
   doFetchStoriesAsync,
 };
 ```
+which dispatches to a [`error`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/error.js) action creator that calls [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js).
+```JavaScript
+import { ERROR, CLEAR_ERROR } from '../constants/actionTypes';
+import recordError from '../api/error';
+
+const doError = (error) => {
+  recordError(error);
+  return { type: ERROR,
+    error,
+  }
+};
+
+const doClearError = () => ({ type: CLEAR_ERROR });
+
+export {
+  doError,
+  doClearError
+};
+```
+
 Type "break it" into the search field to trigger yet another contrived error :)
 
 ### Catching unhandled errors in action creators and reducers
