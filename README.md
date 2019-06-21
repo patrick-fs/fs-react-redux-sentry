@@ -156,7 +156,7 @@ If you search for “Florida” an error is thrown from the [SearchStories](http
 
 A FullStory session replay URL is included in the Sentry issue that deep links to the moment _just before_ the error occurs.
 
-![image](https://user-images.githubusercontent.com/45576380/59303911-36c55b80-8c65-11e9-8541-9dd199610151.png)
+![image](https://user-images.githubusercontent.com/45576380/59945068-6f6aef00-9434-11e9-9b81-ee9a7bc8bbb6.png)
 
 Clicking on this link lets you see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundary screen. The "Application error" event is visible in the event stream on the right-hand side of the screen.
 
