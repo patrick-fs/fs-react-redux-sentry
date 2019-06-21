@@ -251,7 +251,7 @@ When you click the "Archive" button, a thunk action creator is dispatched and an
 
 This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js).
 
-You can greatly simplify this code by removing redux-thunk and handling thunk on your own. See [this issue](https://github.com/patrick-fs/fs-react-redux-sentry/issues/1) for an explanation of how to do this.
+You can greatly simplify this code by removing redux-thunk and handling the thunk on your own. See [this issue](https://github.com/patrick-fs/fs-react-redux-sentry/issues/1) for an explanation of how to do this.
 
 ### Uncaught error notifications
 
