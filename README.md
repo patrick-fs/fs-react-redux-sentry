@@ -160,7 +160,7 @@ A FullStory session replay URL is included in the Sentry issue that deep links t
 
 Clicking on this link lets you see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundary screen. The "Application error" event is visible in the event stream on the right-hand side of the screen.
 
-![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59942320-4f83fd00-942d-11e9-8601-a0dc853a44b8.gif)
+![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59942536-f7012f80-942d-11e9-83ba-bdab6c75d8c7.gif)
 
 ### Handling errors in Redux action creators
 Action creator functions are another likely source of errors if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)...
