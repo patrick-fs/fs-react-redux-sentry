@@ -1,6 +1,6 @@
 body {
   color: #222;
-  background: #F9F9F9;
+  background: #E4E8EB;
   font: 400 14px CoreSans, Arial,sans-serif;
 }
 
@@ -34,7 +34,7 @@ button {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #dddddd;
-  background: #E4E8EB;
+  background: #f9f9f9;
   color: #808080;
   cursor: pointer;
 }
