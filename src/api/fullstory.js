@@ -38,7 +38,7 @@ const shutdown = wrappedFS.shutdown;
 const restart = wrappedFS.restart;
 
 const isReady = () => {
-  if (ensureFSLoaded() && window._fs_loaded) {
+  if (ensureSnippetLoaded() && window._fs_loaded) {
     return Promise.resolve();
   }
 
