@@ -13,7 +13,7 @@ The Search Hacker News React/Redux app example in this repo is based on [Robin W
 You can try out the Search Hacker News app [here](http://fs-redux-sentry.s3-website-us-east-1.amazonaws.com/) or you can clone this repo and `npm install` then `npm run start`. The code is built with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Setting up FullStory
-You’ll need a FullStory [Professional](https://www.fullstory.com/pricing/) account, though you can get a two-week free trial if you want to try out Sentry + FullStory cost-free. Once you’ve setup an account, update the `_fs_org` value in the [FullStory snippet](https://help.fullstory.com/using/recording-snippet) in [public/index.html](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/public/index.html).
+You’ll need a [FullStory account](https://www.fullstory.com/pricing/). Once you’ve setup your account, update the `_fs_org` value in the [FullStory snippet](https://help.fullstory.com/using/recording-snippet) in [public/index.html](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/public/index.html).
 
 ```JavaScript
 window['_fs_org'] = 'your org id here';
@@ -87,7 +87,7 @@ We’re also using the FullStory [custom events API](https://help.fullstory.com/
 ## All the things that can go wrong...
 
 ### Handling errors in React components
-React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components. Error Boundaries will capture errors thrown from any component nested within them. All child compoments of the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component are wrapped in an Error Boundary, which means errors in any component will be handled.
+React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components. Error Boundaries will capture errors thrown from any component nested within them. All child components of the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component are wrapped in an Error Boundary, which means errors in any component will be handled.
 
 ```JSX
 import React from 'react';
@@ -158,7 +158,7 @@ A FullStory session replay URL is included in the Sentry issue that deep links t
 
 ![image](https://user-images.githubusercontent.com/45576380/59945068-6f6aef00-9434-11e9-9b81-ee9a7bc8bbb6.png)
 
-Clicking on this link lets you see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundary screen. The "Application error" event is visible in the event stream on the right-hand side of the screen.
+Clicking on this link lets you see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundary screen. The "Application Error" event is visible in the event stream on the right-hand side of the screen.
 
 ![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59942536-f7012f80-942d-11e9-83ba-bdab6c75d8c7.gif)
 
@@ -263,7 +263,7 @@ These include unhandled exceptions thrown from:
 * event handlers in React components (`onClick`, `onSubmit`, etc.)
 * `setTimeout` or `setInterval`
 
-There isn't an easy way to report back to users that something went wrong when unhandled exceptions occur in these scenarios, but because Sentry shims the global [`onerror`](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror) event handler, you *will* receive an error alert with a FullStory session replay URL as well as a FullStory custom event whenever an uncaught JavaScript runtime error occurs. All of this is taken care of in the `initSentry` function in the [error API](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module.
+There's no way to report back to users that something went wrong when unhandled exceptions occur in these scenarios, but because Sentry shims the global [`onerror`](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror) event handler, you *will* receive an error alert with a FullStory session replay URL as well as a FullStory custom event whenever an uncaught JavaScript runtime error occurs. All of this is taken care of in the `initSentry` function in the [error API](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module.
 
 ## Monitor, Alert, Watch, Fix
 Bug-awareness is the critical first step in maintaining quality in your applications. Sentry let's you know that your users may be feeling pain. FullStory shows you exactly _what_ they are doing in those moments before an error strikes and gives you the complete picture you need to remediate issues as fast as possible.
