@@ -5,7 +5,7 @@ import parseQuery from '../util/parseQuery';
 const history = createBrowserHistory();
 
 const doSaveQuery = query => {
-  history.push(`/?query=${query}`);
+  history.push(`/?query=${encodeURIComponent(query)}`);
   return {
     type: SAVE_QUERY,
     query,

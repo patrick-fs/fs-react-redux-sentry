@@ -13,7 +13,7 @@ The Search Hacker News React/Redux app example in this repo is based on [Robin W
 You can try out the Search Hacker News app [here](http://fs-redux-sentry.s3-website-us-east-1.amazonaws.com/) or you can clone this repo and `npm install` then `npm run start`. The code is built with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Setting up FullStory
-You’ll need a FullStory [Professional](https://www.fullstory.com/pricing/) account, though you can get a two-week free trial if you want to try out Sentry + FullStory cost-free. Once you’ve setup an account, update the `_fs_org` value in the [FullStory snippet](https://help.fullstory.com/using/recording-snippet) in [public/index.html](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/public/index.html).
+You’ll need a [FullStory account](https://www.fullstory.com/pricing/). Once you’ve setup your account, update the `_fs_org` value in the [FullStory snippet](https://help.fullstory.com/using/recording-snippet) in [public/index.html](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/public/index.html).
 
 ```JavaScript
 window['_fs_org'] = 'your org id here';
@@ -39,7 +39,7 @@ ReactDOM.render(
 Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your key and project values).
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function retrieves a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when the [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
+FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
 
 ```JavaScript
 import * as Sentry from '@sentry/browser';
@@ -59,7 +59,7 @@ const initSentry = (sentryKey, sentryProject) => {
       event.extra = event.extra || {};
       event.extra.fullstory = FullStory.getCurrentSessionURL(true) || 'current session URL API not ready';
 
-      FullStory.event('Application error', {
+      FullStory.event('Application Error', {
         name: error.name,
         message: error.message,
         fileName: error.fileName,
@@ -87,7 +87,7 @@ We’re also using the FullStory [custom events API](https://help.fullstory.com/
 ## All the things that can go wrong...
 
 ### Handling errors in React components
-React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components. Error Boundaries will capture errors thrown from any component nested within them. All child compoments of the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component are wrapped in an Error Boundary, which means errors in any component will be handled.
+React 16 introduced [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) to handle exceptions thrown while rendering components. Error Boundaries will capture errors thrown from any component nested within them. All child components of the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component are wrapped in an Error Boundary, which means errors in any component will be handled.
 
 ```JSX
 import React from 'react';
@@ -154,16 +154,16 @@ If you search for “Florida” an error is thrown from the [SearchStories](http
 
 ![image](https://user-images.githubusercontent.com/45576380/59303785-f06ffc80-8c64-11e9-9927-49b90f9b7381.png)
 
-A FullStory session replay URL is included in the Sentry issue that deep links to the moment the issue was created.
+A FullStory session replay URL is included in the Sentry issue that deep links to the moment _just before_ the error occurs.
 
-![image](https://user-images.githubusercontent.com/45576380/59303911-36c55b80-8c65-11e9-8541-9dd199610151.png)
+![image](https://user-images.githubusercontent.com/45576380/59945068-6f6aef00-9434-11e9-9b81-ee9a7bc8bbb6.png)
 
-Clicking on this link lets you see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundary screen. The "Application error" event is visible in the event stream on the right-hand side of the screen.
+Clicking on this link lets you see the user’s actions leading up to and following the error in a FullStory session replay. In this example, we see our user type the unsearchable term ("Florida") into the search box and submit before they see the Error Boundary screen. The "Application Error" event is visible in the event stream on the right-hand side of the screen.
 
-![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59304453-4d1fe700-8c66-11e9-91ba-20917053184b.gif)
+![Hacker_News_Florida_Error](https://user-images.githubusercontent.com/45576380/59942536-f7012f80-942d-11e9-83ba-bdab6c75d8c7.gif)
 
 ### Handling errors in Redux action creators
-Action creator functions are another likely source of errors if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)
+Action creator functions are another likely source of errors if you're performing side-effects and dispatching other actions. The integration with the Hacker News API occurs in the [story action creator](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/story.js)...
 
 ```JavaScript
 import { STORIES_ADD } from '../constants/actionTypes';
@@ -193,6 +193,26 @@ export {
   doFetchStoriesAsync,
 };
 ```
+...which dispatches the caught exception to a [`doError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/error.js) action creator that calls [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js).
+```JavaScript
+import { ERROR, CLEAR_ERROR } from '../constants/actionTypes';
+import recordError from '../api/error';
+
+const doError = (error) => {
+  recordError(error);
+  return { type: ERROR,
+    error,
+  }
+};
+
+const doClearError = () => ({ type: CLEAR_ERROR });
+
+export {
+  doError,
+  doClearError
+};
+```
+
 Type "break it" into the search field to trigger yet another contrived error :)
 
 ### Catching unhandled errors in action creators and reducers
@@ -229,11 +249,21 @@ export default crashReporter;
 
 When you click the "Archive" button, a thunk action creator is dispatched and an unhandled exception is thrown, to be caught and handled by the [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) middleware.
 
-This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by this middleware.
+This middleware will capture any uncaught reducer errors as well as any action creator error thrown from a thunk. Uncaught exceptions thrown from plain action creators will not be caught by [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js).
 
-### Handling uncaught errors
+You can greatly simplify this code by removing redux-thunk and handling the thunk on your own. See [this issue](https://github.com/patrick-fs/fs-react-redux-sentry/issues/1) for an explanation of how to do this.
 
+### Uncaught error notifications
 
+Ideally, all exceptions are caught and handled appropriately to provide proper user feedback. Using [`crashReporter`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/store/crashReporter.js) will help in case a `try/catch` statement was left out in certain situations, but there are types of unhandled exceptions that middleware can't catch. 
+
+These include unhandled exceptions thrown from:
+
+* action creators that aren't thunks
+* event handlers in React components (`onClick`, `onSubmit`, etc.)
+* `setTimeout` or `setInterval`
+
+There's no way to report back to users that something went wrong when unhandled exceptions occur in these scenarios, but because Sentry shims the global [`onerror`](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror) event handler, you *will* receive an error alert with a FullStory session replay URL as well as a FullStory custom event whenever an uncaught JavaScript runtime error occurs. All of this is taken care of in the `initSentry` function in the [error API](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module.
 
 ## Monitor, Alert, Watch, Fix
 Bug-awareness is the critical first step in maintaining quality in your applications. Sentry let's you know that your users may be feeling pain. FullStory shows you exactly _what_ they are doing in those moments before an error strikes and gives you the complete picture you need to remediate issues as fast as possible.
