@@ -7,7 +7,6 @@ const initSentry = (sentryKey, sentryProject) => {
     console.warn('initSentry has already been called once. Additional invocations are ignored.');
     return;
   }
-  didInit = true;
   Sentry.init({
     dsn: `https://${sentryKey}@sentry.io/${sentryProject}`,
     beforeSend(event, hint) {
@@ -32,12 +31,13 @@ const initSentry = (sentryKey, sentryProject) => {
       return event;
     }
   });
-}
+  didInit = true;
+};
 
 const recordError = (error) => {
   if (!didInit) throw Error('You must call initSentry once before calling recordError');
   Sentry.captureException(error);
-}
+};
 
 export default recordError;
 export { initSentry };
