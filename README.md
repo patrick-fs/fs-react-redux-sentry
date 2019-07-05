@@ -51,14 +51,18 @@ const initSentry = (sentryKey, sentryProject) => {
     console.warn('initSentry has already been called once. Additional invocations are ignored.');
     return;
   }
-  didInit = true;
   Sentry.init({
     dsn: `https://${sentryKey}@sentry.io/${sentryProject}`,
     beforeSend(event, hint) {
       const error = hint.originalException;
       event.extra = event.extra || {};
+
+      // getCurrentSessionURL isn't available until after the FullStory script is fully bootstrapped.
+      // If an error occurs before getCurrentSessionURL is ready, make a note in Sentry and move on.
+      // More on getCurrentSessionURL here: https://help.fullstory.com/develop-js/getcurrentsessionurl
       event.extra.fullstory = FullStory.getCurrentSessionURL(true) || 'current session URL API not ready';
 
+      // FS.event is immediately ready even if FullStory isn't fully bootstrapped
       FullStory.event('Application Error', {
         name: error.name,
         message: error.message,
@@ -71,12 +75,13 @@ const initSentry = (sentryKey, sentryProject) => {
       return event;
     }
   });
-}
+  didInit = true;
+};
 
 const recordError = (error) => {
   if (!didInit) throw Error('You must call initSentry once before calling recordError');
   Sentry.captureException(error);
-}
+};
 
 export default recordError;
 export { initSentry };
