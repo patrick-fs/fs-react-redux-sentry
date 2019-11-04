@@ -7,7 +7,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { initSentry } from './api/error';
 
-initSentry('<your Sentry key>', '<your Sentry project>');
+initSentry(process.env.REACT_APP_SENTRY_DSN);
 
 ReactDOM.render(
   <Provider store={store}>
