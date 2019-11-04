@@ -2,6 +2,13 @@ import * as Sentry from '@sentry/browser';
 
 import * as FullStory from '../api/fullstory';
 
+/**
+ * The below class demonstrates how one could build a stand-alone FullStory-Sentry SDK integration.
+ * This integration creates a link from the Sentry Error to the FullStory replay.
+ * It also creates a link from the FullStory event to the Sentry error.
+ * Docs on Sentry SDK integrations are here: https://docs.sentry.io/platforms/javascript/advance-settings/#dealing-with-integrations
+ */
+
 class FullStoryIntegration {
   constructor(sentryOrg, sentryProject) {
     this.name = 'FullStoryIntegration';
