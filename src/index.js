@@ -6,8 +6,11 @@ import App from './components/App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { initSentry } from './api/error';
+import FullStory from '@fullstorydev/browser';
 
-initSentry('<your Sentry key>', '<your Sentry project>');
+FullStory.init({ orgId: '<your org id here>' });
+
+initSentry({ dsn: 'https://<your Sentry key>@sentry.io/<your Sentry project>' });
 
 ReactDOM.render(
   <Provider store={store}>

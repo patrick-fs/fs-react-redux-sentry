@@ -1,14 +1,14 @@
 import * as Sentry from '@sentry/browser';
-import * as FullStory from './fullstory';
+import FullStory from '@fullstorydev/browser';
 
 let didInit = false;
-const initSentry = (sentryKey, sentryProject) => {
+const initSentry = ({ dsn }) => {
   if (didInit) {
     console.warn('initSentry has already been called once. Additional invocations are ignored.');
     return;
   }
   Sentry.init({
-    dsn: `https://${sentryKey}@sentry.io/${sentryProject}`,
+    dsn,
     beforeSend(event, hint) {
       const error = hint.originalException;
       event.extra = event.extra || {};

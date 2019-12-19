@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fullstorydev/browser": "^1.0.0",
     "@sentry/browser": "^5.4.0",
     "history": "^4.9.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
-    "react-scripts": "3.1.2",
+    "react-scripts": "^3.3.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
