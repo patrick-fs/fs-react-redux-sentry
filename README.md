@@ -18,7 +18,7 @@ You’ll need a [FullStory account](https://www.fullstory.com/pricing/) and a [S
 ```JSX
 ...
 import { initSentry } from './api/error';
-import FullStory from '@fullstorydev/browser';
+import * as FullStory from '@fullstorydev/browser';
 
 FullStory.init({ orgId: '<your org id here>' });
 
