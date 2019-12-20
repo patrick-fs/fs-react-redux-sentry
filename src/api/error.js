@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import FullStory from '@fullstorydev/browser';
+import * as FullStory from '@fullstorydev/browser';
 
 let didInit = false;
 const initSentry = ({ dsn }) => {

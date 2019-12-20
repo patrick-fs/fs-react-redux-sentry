@@ -6,7 +6,7 @@ import App from './components/App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { initSentry } from './api/error';
-import FullStory from '@fullstorydev/browser';
+import * as FullStory from '@fullstorydev/browser';
 
 FullStory.init({ orgId: '<your org id here>' });
 
