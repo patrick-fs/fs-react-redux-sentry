@@ -12,21 +12,17 @@ The Search Hacker News React + Redux app example in this repo is based on [Robin
 
 You can try out the Search Hacker News app [here](http://fs-redux-sentry.s3-website-us-east-1.amazonaws.com/) or you can clone this repo and `npm install` then `npm run start`. The code is built with [Create React App](https://github.com/facebook/create-react-app).
 
-### Setting up FullStory
-You’ll need a [FullStory account](https://www.fullstory.com/pricing/). Once you’ve setup your account, update the `_fs_org` value in the [FullStory snippet](https://help.fullstory.com/using/recording-snippet) in [public/index.html](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/public/index.html).
-
-```JavaScript
-window['_fs_org'] = 'your org id here';
-```
-
-### Setting up Sentry
-Sentry should be initialized as soon as possible during your application load up. In Search Hacker News, `initSentry` is called before the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
+### Setup
+You’ll need a [FullStory account](https://www.fullstory.com/pricing/) and a [Sentry account](https://sentry.io/signup/). Sentry and FullStory should be initialized as soon as possible during your application load up. In Search Hacker News, `initSentry` and `FullStory.init` are called before the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
 
 ```JSX
 ...
 import { initSentry } from './api/error';
+import * as FullStory from '@fullstorydev/browser';
 
-initSentry('<your Sentry key>', '<your Sentry project>');
+FullStory.init({ orgId: '<your org id here>' });
+
+initSentry({ dsn: 'https://<your Sentry key>@sentry.io/<your Sentry project>' });
 
 ReactDOM.render(
   <Provider store={store}>
@@ -36,23 +32,23 @@ ReactDOM.render(
 );
 
 ```
-Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your key and project values).
+Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your Sentry `dsn` value). Once you're logged into FullStory, you can find your org id in the [settings page](https://app.fullstory.com/ui/1ENq/settings/general). It will be the value set for `window['_fs_org']`.
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://help.fullstory.com/develop-js/getcurrentsessionurl) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
+FullStory’s [`FS.getCurrentSessionURL`](https://developer.fullstory.com/current-session-url) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
 
 ```JavaScript
 import * as Sentry from '@sentry/browser';
-import * as FullStory from './fullstory';
+import FullStory from '@fullstorydev/browser';
 
 let didInit = false;
-const initSentry = (sentryKey, sentryProject) => {
+const initSentry = ({ dsn }) => {
   if (didInit) {
     console.warn('initSentry has already been called once. Additional invocations are ignored.');
     return;
   }
   Sentry.init({
-    dsn: `https://${sentryKey}@sentry.io/${sentryProject}`,
+    dsn,
     beforeSend(event, hint) {
       const error = hint.originalException;
       event.extra = event.extra || {};

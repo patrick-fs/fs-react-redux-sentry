@@ -1,5 +1,5 @@
 import { ERROR } from '../constants/actionTypes';
-import * as FullStory from '../api/fullstory';
+import * as FullStory from '@fullstorydev/browser';
 
 const recordAction = () => next => action => {
   if (typeof action !== 'function') {
