@@ -16,7 +16,6 @@ Sentry.init({
   integrations: [
     new FullStoryIntegration(
       process.env.REACT_APP_SENTRY_ORG,
-      process.env.REACT_APP_SENTRY_PROJECT,
     ),
   ],
 });
