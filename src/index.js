@@ -5,13 +5,21 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { initSentry } from './api/error';
 import * as FullStory from '@fullstorydev/browser';
-
+import * as Sentry from '@sentry/browser';
+import FullStoryIntegration from '@sentry/fullstory';
 
 FullStory.init({ orgId: process.env.REACT_APP_FULLSTORY_ORG });
 
-initSentry(process.env.REACT_APP_SENTRY_DSN);
+Sentry.init({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  integrations: [
+    new FullStoryIntegration(
+      process.env.REACT_APP_SENTRY_ORG,
+      process.env.REACT_APP_SENTRY_PROJECT,
+    ),
+  ],
+});
 
 ReactDOM.render(
   <Provider store={store}>

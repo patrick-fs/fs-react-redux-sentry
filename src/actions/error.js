@@ -1,8 +1,8 @@
 import { ERROR, CLEAR_ERROR } from '../constants/actionTypes';
-import recordError from '../api/error';
+import * as Sentry from '@sentry/browser';
 
 const doError = (error) => {
-  recordError(error);
+  Sentry.captureException(error);
   return { type: ERROR,
     error,
   }
