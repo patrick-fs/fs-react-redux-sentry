@@ -8,7 +8,8 @@ import * as serviceWorker from './serviceWorker';
 import { initSentry } from './api/error';
 import * as FullStory from '@fullstorydev/browser';
 
-FullStory.init({ orgId: '<your org id here>' });
+
+FullStory.init({ orgId: process.env.REACT_APP_FULLSTORY_ORG });
 
 initSentry(process.env.REACT_APP_SENTRY_DSN);
 

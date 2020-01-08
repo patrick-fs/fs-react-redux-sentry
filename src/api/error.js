@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/browser';
-
-import FullStoryIntegration from '../integrations/FullStoryIntegration';
+import FullStoryIntegration from '@sentry/fullstory';
 
 let didInit = false;
 const initSentry = sentryDsn => {
