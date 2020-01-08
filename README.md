@@ -13,6 +13,8 @@ The Search Hacker News React + Redux app example in this repo is based on [Robin
 You can try out the Search Hacker News app [here](http://fs-redux-sentry.s3-website-us-east-1.amazonaws.com/) or you can clone this repo and `npm install` then `npm run start`. The code is built with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Setup
+First, copy the file `.env_sample` to `.env`. You will need to fill in those values to set up Sentry and FullStory correctly.
+
 You’ll need a [FullStory account](https://www.fullstory.com/pricing/) and a [Sentry account](https://sentry.io/signup/). Sentry and FullStory should be initialized as soon as possible during your application load up. In Search Hacker News, `initSentry` and `FullStory.init` are called before the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
 
 ```JSX
@@ -20,9 +22,13 @@ You’ll need a [FullStory account](https://www.fullstory.com/pricing/) and a [S
 import { initSentry } from './api/error';
 import * as FullStory from '@fullstorydev/browser';
 
-FullStory.init({ orgId: '<your org id here>' });
+FullStory.init({ orgId: process.env.REACT_APP_FULLSTORY_ORG });
 
-initSentry({ dsn: 'https://<your Sentry key>@sentry.io/<your Sentry project>' });
+initSentry({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  org: process.env.REACT_APP_SENTRY_ORG,
+});
+
 
 ReactDOM.render(
   <Provider store={store}>
@@ -32,50 +38,37 @@ ReactDOM.render(
 );
 
 ```
-Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your Sentry `dsn` value). Once you're logged into FullStory, you can find your org id in the [settings page](https://app.fullstory.com/ui/1ENq/settings/general). It will be the value set for `window['_fs_org']`.
+Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/javascript/react/) to find your `Sentry.init` statement (prefilled with your Sentry `dsn` value). Copy that value into the `REACT_APP_SENTRY_DSN` field in your `.env` file. Next, find the slug of your organization from the URL of your Sentry account. Example: `https://sentry.io/organizations/fullstory/` where `fullstory` would be the organization slug. Copy that value into `REACT_APP_SENTRY_ORG` in your `.env` file.
+
+Once you're logged into FullStory, you can find your org id in the [settings page](https://app.fullstory.com/ui/1ENq/settings/general). It will be the value set for `window['_fs_org']`. Copy that value into `REACT_APP_FULLSTORY_ORG` of your `.env` file.
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://developer.fullstory.com/current-session-url) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.extra.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [`src/api/error.js`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) module puts it all together.
+FullStory’s [`FS.getCurrentSessionURL`](https://developer.fullstory.com/current-session-url) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.contexts.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [Sentry-FullStory](https://github.com/getsentry/sentry-fullstory) integration package puts it all together.
 
 ```JavaScript
 import * as Sentry from '@sentry/browser';
-import FullStory from '@fullstorydev/browser';
+import FullStoryIntegration from '@sentry/fullstory';
 
 let didInit = false;
-const initSentry = ({ dsn }) => {
+const initSentry = ({ dsn, org }) => {
   if (didInit) {
-    console.warn('initSentry has already been called once. Additional invocations are ignored.');
+    console.warn(
+      'initSentry has already been called once. Additional invocations are ignored.',
+    );
     return;
   }
   Sentry.init({
     dsn,
-    beforeSend(event, hint) {
-      const error = hint.originalException;
-      event.extra = event.extra || {};
-
-      // getCurrentSessionURL isn't available until after the FullStory script is fully bootstrapped.
-      // If an error occurs before getCurrentSessionURL is ready, make a note in Sentry and move on.
-      // More on getCurrentSessionURL here: https://help.fullstory.com/develop-js/getcurrentsessionurl
-      event.extra.fullstory = FullStory.getCurrentSessionURL(true) || 'current session URL API not ready';
-
-      // FS.event is immediately ready even if FullStory isn't fully bootstrapped
-      FullStory.event('Application Error', {
-        name: error.name,
-        message: error.message,
-        fileName: error.fileName,
-        lineNumber: error.lineNumber,
-        stack: error.stack,
-        sentryEventId: hint.event_id,
-      });
-      
-      return event;
-    }
+    integrations: [new FullStoryIntegration(org)],
   });
   didInit = true;
 };
 
-const recordError = (error) => {
-  if (!didInit) throw Error('You must call initSentry once before calling recordError');
+const recordError = error => {
+  if (!didInit)
+    throw Error(
+      'You must call initSentry once before calling recordError',
+    );
   Sentry.captureException(error);
 };
 
@@ -83,7 +76,6 @@ export default recordError;
 export { initSentry };
 ```
 
-We’re also using the FullStory [custom events API](https://help.fullstory.com/develop-js/363565-fs-event-api-sending-custom-event-data-into-fullstory) to send error data into FullStory. This lets us search for all users that experienced errors on the Search Hacker News app.
 
 ## All the things that can go wrong...
 
