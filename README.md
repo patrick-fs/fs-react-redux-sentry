@@ -80,6 +80,7 @@ export default recordError;
 export { initSentry };
 ```
 
+We’re also using the FullStory [custom events API](https://help.fullstory.com/develop-js/363565-fs-event-api-sending-custom-event-data-into-fullstory) to send error data into FullStory. This lets us search for all users that experienced errors on the Search Hacker News app.
 
 ## All the things that can go wrong...
 
