@@ -6,6 +6,7 @@ const history = createBrowserHistory();
 
 const doSaveQuery = query => {
   history.push(`/?query=${encodeURIComponent(query)}`);
+  if (query === 'unhandled exception') throw new Error("unhandled exception");
   return {
     type: SAVE_QUERY,
     query,
