@@ -42,6 +42,10 @@ Once you are logged into Sentry, go [here](https://docs.sentry.io/platforms/java
 
 Once you're logged into FullStory, you can find your org id in the [settings page](https://app.fullstory.com/ui/1ENq/settings/general). It will be the value set for `window['_fs_org']`. Copy that value into `REACT_APP_FULLSTORY_ORG` of your `.env` file.
 
+
+The final step is to configure your Sentry settings to whitelist the FullStoryUrl. Please follow the instructions [here](https://github.com/getsentry/sentry-fullstory#sentry-settings-change).
+
+
 ## How FullStory links with Sentry
 FullStory’s [`FS.getCurrentSessionURL`](https://developer.fullstory.com/current-session-url) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.contexts.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [Sentry-FullStory](https://github.com/getsentry/sentry-fullstory) integration package puts it all together.
 
