@@ -15,20 +15,25 @@ You can try out the Search Hacker News app [here](http://fs-redux-sentry.s3-webs
 ### Setup
 First, copy the file `.env_sample` to `.env`. You will need to fill in those values to set up Sentry and FullStory correctly.
 
-You’ll need a [FullStory account](https://www.fullstory.com/pricing/) and a [Sentry account](https://sentry.io/signup/). Sentry and FullStory should be initialized as soon as possible during your application load up. In Search Hacker News, `initSentry` and `FullStory.init` are called before the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
+You’ll need a [FullStory account](https://www.fullstory.com/pricing/) and a [Sentry account](https://sentry.io/signup/). Sentry and FullStory should be initialized as soon as possible during your application load up. In Search Hacker News, `Sentry.init` and `FullStory.init` are called before the [`App`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/App.js) component is loaded in [src/index.js](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/index.js).
 
 ```JSX
 ...
-import { initSentry } from './api/error';
 import * as FullStory from '@fullstorydev/browser';
+import * as Sentry from '@sentry/browser';
+import FullStoryIntegration from '@sentry/fullstory';
 
 FullStory.init({ orgId: process.env.REACT_APP_FULLSTORY_ORG });
 
-initSentry({
+Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
-  org: process.env.REACT_APP_SENTRY_ORG,
+  integrations: [
+    new FullStoryIntegration(
+      process.env.REACT_APP_SENTRY_ORG,
+      process.env.REACT_APP_SENTRY_PROJECT,
+    ),
+  ],
 });
-
 
 ReactDOM.render(
   <Provider store={store}>
@@ -47,40 +52,11 @@ The final step is to configure your Sentry settings to whitelist the FullStoryUr
 
 
 ## How FullStory links with Sentry
-FullStory’s [`FS.getCurrentSessionURL`](https://developer.fullstory.com/current-session-url) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.contexts.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. The [Sentry-FullStory](https://github.com/getsentry/sentry-fullstory) integration package puts it all together.
-
-```JavaScript
-import * as Sentry from '@sentry/browser';
-import FullStoryIntegration from '@sentry/fullstory';
-
-let didInit = false;
-const initSentry = ({ dsn, org }) => {
-  if (didInit) {
-    console.warn(
-      'initSentry has already been called once. Additional invocations are ignored.',
-    );
-    return;
-  }
-  Sentry.init({
-    dsn,
-    integrations: [new FullStoryIntegration(org)],
-  });
-  didInit = true;
-};
-
-const recordError = error => {
-  if (!didInit)
-    throw Error(
-      'You must call initSentry once before calling recordError',
-    );
-  Sentry.captureException(error);
-};
-
-export default recordError;
-export { initSentry };
-```
+FullStory’s [`FS.getCurrentSessionURL`](https://developer.fullstory.com/current-session-url) API function generates a session replay URL for a particular moment in time. These URLs are deep links that can be shared with other tools and services. Session URLs are embedded into Sentry events when [extra context](https://docs.sentry.io/enriching-error-data/context/?platform=javascript#extra-context) is configured by providing a value for `event.contexts.fullstory` in the [beforeSend](https://docs.sentry.io/error-reporting/configuration/filtering/?platform=javascript#before-send) hook. 
 
 We’re also using the FullStory [custom events API](https://help.fullstory.com/develop-js/363565-fs-event-api-sending-custom-event-data-into-fullstory) to send error data into FullStory. This lets us search for all users that experienced errors on the Search Hacker News app.
+
+The [Sentry-FullStory](https://github.com/getsentry/sentry-fullstory) integration package puts it all together.
 
 ## All the things that can go wrong...
 
