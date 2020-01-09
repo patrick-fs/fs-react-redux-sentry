@@ -89,7 +89,7 @@ This is our [ErrorBoundry component](https://github.com/patrick-fs/fs-react-redu
 
 ```JSX
 import React, { Component } from 'react';
-import recordError from '../api/error';
+import * as Sentry from '@sentry/browser';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -99,7 +99,7 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ error });
-    recordError(error, errorInfo);
+    Sentry.captureException(error);
   }
 
   render() {
@@ -120,7 +120,7 @@ class ErrorBoundary extends Component {
 
 export default ErrorBoundary;
 ```
-[`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js) is invoked in `componentDidCatch`, sending error data to Sentry along with a FullStory session replay URL.
+`Sentry.captureException` is invoked in `componentDidCatch`, sending error data to Sentry along with a FullStory session replay URL.
 
 #### No offense fellow Floridians
 If you search for “Florida” an error is thrown from the [SearchStories](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/components/SearchStories.js) component (a poke at my home state). Sentry captures the stack trace and highlights the line of code that threw the error:
@@ -166,13 +166,13 @@ export {
   doFetchStoriesAsync,
 };
 ```
-...which dispatches the caught exception to a [`doError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/error.js) action creator that calls [`recordError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/api/error.js).
+...which dispatches the caught exception to a [`doError`](https://github.com/patrick-fs/fs-react-redux-sentry/blob/master/src/actions/error.js) action creator that calls `Sentry.captureException`.
 ```JavaScript
 import { ERROR, CLEAR_ERROR } from '../constants/actionTypes';
-import recordError from '../api/error';
+import * as Sentry from '@sentry/browser';
 
 const doError = (error) => {
-  recordError(error);
+  Sentry.captureException(error);
   return { type: ERROR,
     error,
   }
