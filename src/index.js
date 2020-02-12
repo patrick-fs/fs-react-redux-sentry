@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import * as FullStory from '@fullstorydev/browser';
+import * as FullStory from '@fullstory/browser';
 import * as Sentry from '@sentry/browser';
 import FullStoryIntegration from '@sentry/fullstory';
 
