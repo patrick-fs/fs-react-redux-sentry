@@ -19,7 +19,7 @@ You’ll need a [FullStory account](https://www.fullstory.com/pricing/) and a [S
 
 ```JSX
 ...
-import * as FullStory from '@fullstorydev/browser';
+import * as FullStory from '@fullstory/browser';
 import * as Sentry from '@sentry/browser';
 import FullStoryIntegration from '@sentry/fullstory';
 
