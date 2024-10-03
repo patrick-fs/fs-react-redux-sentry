@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.0.1",
-    "@sentry/browser": "^5.4.0",
+    "@sentry/browser": "^8.33.0",
     "@sentry/fullstory": "^1.1.0",
     "history": "^4.9.0",
     "react": "^16.8.6",
